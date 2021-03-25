@@ -1,17 +1,20 @@
 import axios from 'axios';
 
-export default ({ req }) => {
+const buildClient = ({ req }) => {
   if (typeof window === 'undefined') {
-    // We are on the server
+    //we are on the server
 
     return axios.create({
+      //baseURL: 'http://ingress-nginx-controller.kube-system.svc.cluster.local',
       baseURL: 'http://www.ticketzone-app-prod.club/',
       headers: req.headers,
     });
   } else {
-    // We must be on the browser
+    //we are on the browser
     return axios.create({
-      baseUrl: '/',
+      baseURL: '/',
     });
   }
 };
+
+export default buildClient;
