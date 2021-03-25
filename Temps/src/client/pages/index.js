@@ -14,10 +14,9 @@ const LandingPage = ({ currentUser, tickets }) => {
       </tr>
     );
   });
-
   return (
     <div>
-      <h1>Tickets</h1>
+      <h4>Tickets</h4>
       <table className="table">
         <thead>
           <tr>
@@ -37,5 +36,4 @@ LandingPage.getInitialProps = async (context, client, currentUser) => {
 
   return { tickets: data };
 };
-
 export default LandingPage;
