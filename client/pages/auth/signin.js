@@ -21,7 +21,8 @@ const SignIn = () => {
   };
   return (
     <form onSubmit={onSubmit}>
-      <h2>Sign in</h2>
+     
+      <h3>Sign in</h3>
       <div className="form-group">
         <label>Email Address</label>
         <input
