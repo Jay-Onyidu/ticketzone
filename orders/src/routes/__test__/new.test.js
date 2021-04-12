@@ -71,6 +71,8 @@ it('returns an error if the ticket is already reserved', function () { return __
                     id: mongoose_1.default.Types.ObjectId().toHexString(),
                     title: 'concert',
                     price: 20,
+                    imageUrl: 'ablskdjf',
+                    description: 'hghggh',
                 });
                 return [4 /*yield*/, ticket.save()];
             case 1:
@@ -104,6 +106,8 @@ it('reserves a ticket', function () { return __awaiter(void 0, void 0, void 0, f
                     id: mongoose_1.default.Types.ObjectId().toHexString(),
                     title: 'concert',
                     price: 20,
+                    imageUrl: 'ablskdjf',
+                    description: 'hghggh',
                 });
                 return [4 /*yield*/, ticket.save()];
             case 1:
@@ -128,6 +132,8 @@ it('emits an order created event', function () { return __awaiter(void 0, void 0
                     id: mongoose_1.default.Types.ObjectId().toHexString(),
                     title: 'concert',
                     price: 20,
+                    imageUrl: 'ablskdjf',
+                    description: 'hghggh',
                 });
                 return [4 /*yield*/, ticket.save()];
             case 1:

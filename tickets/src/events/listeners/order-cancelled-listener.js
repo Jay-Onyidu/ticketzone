@@ -84,6 +84,8 @@ var OrderCancelledListener = /** @class */ (function (_super) {
                                 price: ticket.price,
                                 title: ticket.title,
                                 version: ticket.version,
+                                imageUrl: ticket.imageUrl,
+                                description: ticket.description,
                             })];
                     case 3:
                         _a.sent();

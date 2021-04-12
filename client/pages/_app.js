@@ -4,12 +4,14 @@ import Header from '../components/header';
 
 const AppComponent = ({ Component, pageProps, currentUser }) => {
   return (
-    <div>
+    <>
       <Header currentUser={currentUser} />
-      <div className="container">
-        <Component currentUser={currentUser} {...pageProps} />
+      <div className="album py-5 bg-light">
+        <div className="container">
+          <Component currentUser={currentUser} {...pageProps} />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

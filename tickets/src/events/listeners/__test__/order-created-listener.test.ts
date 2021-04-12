@@ -14,6 +14,8 @@ const setup = async () => {
     title: 'concert',
     price: 99,
     userId: 'asdf',
+    imageUrl: 'asdf',
+    description: 'asdf',
   });
   await ticket.save();
 

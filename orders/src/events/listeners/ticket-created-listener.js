@@ -63,15 +63,17 @@ var TicketCreatedListener = /** @class */ (function (_super) {
     }
     TicketCreatedListener.prototype.onMessage = function (data, msg) {
         return __awaiter(this, void 0, void 0, function () {
-            var id, title, price, ticket;
+            var id, title, price, imageUrl, description, ticket;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        id = data.id, title = data.title, price = data.price;
+                        id = data.id, title = data.title, price = data.price, imageUrl = data.imageUrl, description = data.description;
                         ticket = ticket_1.Ticket.build({
                             id: id,
                             title: title,
                             price: price,
+                            imageUrl: imageUrl,
+                            description: description,
                         });
                         return [4 /*yield*/, ticket.save()];
                     case 1:

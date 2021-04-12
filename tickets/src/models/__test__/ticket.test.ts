@@ -6,6 +6,8 @@ it('implements optimistic concurrency control', async (done) => {
     title: 'concert',
     price: 5,
     userId: '123',
+    imageUrl: 'alskdjf',
+    description: 'bohoo',
   });
 
   // Save the ticket to the database
@@ -37,6 +39,8 @@ it('increments the version number on multiple saves', async () => {
     title: 'concert',
     price: 20,
     userId: '123',
+    imageUrl: 'alskdjf',
+    description: 'bohoo',
   });
 
   await ticket.save();

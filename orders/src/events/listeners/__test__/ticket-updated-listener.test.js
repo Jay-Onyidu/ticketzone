@@ -53,6 +53,8 @@ var setup = function () { return __awaiter(void 0, void 0, void 0, function () {
                     id: mongoose_1.default.Types.ObjectId().toHexString(),
                     title: 'concert',
                     price: 20,
+                    imageUrl: 'ablskdjf',
+                    description: 'asdf',
                 });
                 return [4 /*yield*/, ticket.save()];
             case 1:

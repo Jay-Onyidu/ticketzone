@@ -14,6 +14,8 @@ const setup = async () => {
     id: mongoose.Types.ObjectId().toHexString(),
     title: 'concert',
     price: 20,
+    imageUrl: 'ablskdjf',
+    description: 'asdf',
   });
   await ticket.save();
 
@@ -24,6 +26,8 @@ const setup = async () => {
     title: 'new concert',
     price: 999,
     userId: 'ablskdjf',
+    imageUrl: 'ablskdjf',
+    description: 'ablskdjf',
   };
 
   // Create a fake msg object
