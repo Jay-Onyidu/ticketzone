@@ -12,8 +12,8 @@ const handle = app.getRequestHandler();
 const cors = require('cors');
 
 const corsOptions = {
-  //origin: 'http://www.ticketzone-app-prod.club',
-  origin: 'http://localhost:3000',
+  origin: 'http://www.ticketzone-app-prod.club',
+  //origin: 'http://localhost:3000',
   optionsSuccessStatus: 200,
 };
 
