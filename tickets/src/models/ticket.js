@@ -22,6 +22,12 @@ var ticketSchema = new mongoose_1.default.Schema({
     orderId: {
         type: String,
     },
+    imageUrl: {
+        type: String,
+    },
+    description: {
+        type: String,
+    },
 }, {
     toJSON: {
         transform: function (doc, ret) {

@@ -88,6 +88,8 @@ var OrderCreatedListener = /** @class */ (function (_super) {
                                 userId: ticket.userId,
                                 orderId: ticket.orderId,
                                 version: ticket.version,
+                                imageUrl: ticket.imageUrl,
+                                description: ticket.description,
                             })];
                     case 3:
                         _a.sent();

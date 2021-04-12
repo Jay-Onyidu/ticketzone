@@ -18,11 +18,13 @@ router.post(
   ],
   ValidateRequest,
   async (req: Request, res: Response) => {
-    const { title, price } = req.body;
+    const { title, price, imageUrl, description } = req.body;
 
     const ticket = Ticket.build({
       title,
       price,
+      imageUrl,
+      description,
       userId: req.currentUser!.id,
     });
     await ticket.save();
@@ -32,6 +34,8 @@ router.post(
       price: ticket.price,
       userId: ticket.userId,
       version: ticket.version,
+      imageUrl: ticket.imageUrl,
+      description: ticket.description,
     });
 
     res.status(201).send(ticket);

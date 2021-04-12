@@ -54,14 +54,16 @@ router.post('/api/tickets', common_1.requireAuth, [
         .isFloat({ gt: 0 })
         .withMessage('Price must be greater than 0'),
 ], common_1.ValidateRequest, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, title, price, ticket;
+    var _a, title, price, imageUrl, description, ticket;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
-                _a = req.body, title = _a.title, price = _a.price;
+                _a = req.body, title = _a.title, price = _a.price, imageUrl = _a.imageUrl, description = _a.description;
                 ticket = ticket_1.Ticket.build({
                     title: title,
                     price: price,
+                    imageUrl: imageUrl,
+                    description: description,
                     userId: req.currentUser.id,
                 });
                 return [4 /*yield*/, ticket.save()];
@@ -73,6 +75,8 @@ router.post('/api/tickets', common_1.requireAuth, [
                     price: ticket.price,
                     userId: ticket.userId,
                     version: ticket.version,
+                    imageUrl: ticket.imageUrl,
+                    description: ticket.description,
                 });
                 res.status(201).send(ticket);
                 return [2 /*return*/];

@@ -22,28 +22,34 @@ const SignUp = () => {
   };
 
   return (
-    <form onSubmit={onSubmit}>
-      <h3>Sign Up</h3>
-      <div className="form-group">
-        <label>Email Address</label>
-        <input
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="form-control"
-        />
+    <div className="row ">
+      <div className="col-sm-3 mb-2"></div>
+      <div className="col-sm-6 mb-2">
+        <form onSubmit={onSubmit}>
+          <h3>Sign Up</h3>
+          <div className="form-group">
+            <label>Email Address</label>
+            <input
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="form-control"
+            />
+          </div>
+          <div className="form-group">
+            <label>Password</label>
+            <input
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              type="password"
+              className="form-control"
+            />
+          </div>
+          {errors}
+          <button className="btn btn-primary">Sign Up</button>
+        </form>
       </div>
-      <div className="form-group">
-        <label>Password</label>
-        <input
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          type="password"
-          className="form-control"
-        />
-      </div>
-      {errors}
-      <button className="btn btn-primary">Sign Up</button>
-    </form>
+      <div className="col-sm-3 mb-2"></div>
+    </div>
   );
 };
 

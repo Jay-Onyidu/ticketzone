@@ -53,6 +53,12 @@ var ticketSchema = new mongoose_1.default.Schema({
         required: true,
         min: 0,
     },
+    imageUrl: {
+        type: String,
+    },
+    description: {
+        type: String,
+    },
 }, {
     toJSON: {
         transform: function (doc, ret) {
@@ -74,6 +80,8 @@ ticketSchema.statics.build = function (attrs) {
         _id: attrs.id,
         title: attrs.title,
         price: attrs.price,
+        imageUrl: attrs.imageUrl,
+        description: attrs.description,
     });
 };
 ticketSchema.methods.isReserved = function () {

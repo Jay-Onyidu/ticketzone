@@ -15,6 +15,12 @@ spec:
       containers:
         - name: client
           image: jayonyidu/client
+          env:
+            - name: CLOUDINARY_API_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: cloudinary-secret
+                  key: CLOUDINARY_API_SECRET
 ---
 apiVersion: v1
 kind: Service

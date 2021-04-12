@@ -55,7 +55,7 @@ app.set('trust proxy', true);
 app.use(body_parser_1.json());
 app.use(cookie_session_1.default({
     signed: false,
-    secure: process.env.NODE_ENV !== 'test',
+    secure: false,
 }));
 app.use(common_1.currentUser);
 app.use(new_1.createTicketRouter);

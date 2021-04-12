@@ -46,6 +46,8 @@ it('implements optimistic concurrency control', function (done) { return __await
                     title: 'concert',
                     price: 5,
                     userId: '123',
+                    imageUrl: 'alskdjf',
+                    description: 'bohoo',
                 });
                 // Save the ticket to the database
                 return [4 /*yield*/, ticket.save()];
@@ -89,6 +91,8 @@ it('increments the version number on multiple saves', function () { return __awa
                     title: 'concert',
                     price: 20,
                     userId: '123',
+                    imageUrl: 'alskdjf',
+                    description: 'bohoo',
                 });
                 return [4 /*yield*/, ticket.save()];
             case 1:

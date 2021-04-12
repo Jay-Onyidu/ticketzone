@@ -52,6 +52,8 @@ it('fetches the order', function () { return __awaiter(void 0, void 0, void 0, f
                     id: mongoose_1.default.Types.ObjectId().toHexString(),
                     title: 'concert',
                     price: 20,
+                    imageUrl: 'ablskdjf',
+                    description: 'hghggh',
                 });
                 return [4 /*yield*/, ticket.save()];
             case 1:
@@ -85,6 +87,8 @@ it('returns an error if one user tries to fetch another users order', function (
                     id: mongoose_1.default.Types.ObjectId().toHexString(),
                     title: 'concert',
                     price: 20,
+                    imageUrl: 'ablskdjf',
+                    description: 'hghggh',
                 });
                 return [4 /*yield*/, ticket.save()];
             case 1:

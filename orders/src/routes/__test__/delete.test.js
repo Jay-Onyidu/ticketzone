@@ -54,6 +54,8 @@ it('marks an order as cancelled', function () { return __awaiter(void 0, void 0,
                     id: mongoose_1.default.Types.ObjectId().toHexString(),
                     title: 'concert',
                     price: 20,
+                    imageUrl: 'ablskdjf',
+                    description: 'hghggh',
                 });
                 return [4 /*yield*/, ticket.save()];
             case 1:
@@ -92,6 +94,8 @@ it('emits a order cancelled event', function () { return __awaiter(void 0, void 
                     id: mongoose_1.default.Types.ObjectId().toHexString(),
                     title: 'concert',
                     price: 20,
+                    imageUrl: 'ablskdjf',
+                    description: 'hghggh',
                 });
                 return [4 /*yield*/, ticket.save()];
             case 1:

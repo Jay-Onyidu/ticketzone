@@ -41,6 +41,7 @@ router.post(
       amount: order.price * 100,
       source: token,
     });
+
     const payment = Payment.build({
       orderId,
       stripeId: charge.id,
@@ -57,3 +58,35 @@ router.post(
 );
 
 export { router as createChargeRouter };
+
+// router.post('api/checkoutsession', async (req: Request, res: Response) => {
+//   const { quantity, orderId } = req.body;
+
+//   const order = await Order.findById(orderId);
+
+//   if (!order) {
+//     throw new NotFoundError();
+//   }
+//   if (order.userId !== req.currentUser!.id) {
+//     throw new NotAuthorizedError();
+//   }
+//   if (order.status === OrderStatus.Cancelled) {
+//     throw new BadRequestError('Cannot pay for an cancelled order');
+//   }
+
+//   const session = await stripe.checkout.sessions.create({
+//     payment_method_types: ['card'],
+//     customer_email: req.currentUser?.email,
+//     line_items: [
+//       {
+//         amount: order.price * 100,
+//         quantity,
+//         currency: 'usd',
+//       },
+//     ],
+//     mode: 'payment',
+//     success_url: `${req.protocol}://${req.get('host')}/`,
+//     cancel_url: `${req.protocol}://${req.get('host')}/`,
+//   });
+//   res.status(200).json({ sessionId: session.id });
+// });

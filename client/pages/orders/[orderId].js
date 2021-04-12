@@ -2,9 +2,11 @@ import { useEffect, useState } from 'react';
 import StripeCheckout from 'react-stripe-checkout';
 import Router from 'next/router';
 import useRequest from '../../hooks/use-request';
+import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 
 const OrderShow = ({ order, currentUser }) => {
   const [timeLeft, setTimeLeft] = useState(0);
+  const [msDuration, setMsDuration] = useState(60);
   const { doRequest, errors } = useRequest({
     url: '/api/payments',
     method: 'post',
@@ -34,14 +36,35 @@ const OrderShow = ({ order, currentUser }) => {
 
   return (
     <div>
-      Time left to pay: {timeLeft} seconds
-      <StripeCheckout
-        token={({ id }) => doRequest({ token: id })}
-        stripeKey="pk_test_51IXU2YHNY09wOSAB3wElsXLEThEOd5xoCuuiJ0cwPdvwsiOfPKFNMu3h70ByrvNtLZxcKOffYwqQHxl4jm6BO46q00cHYyL7qi"
-        amount={order.ticket.price * 100}
-        email={currentUser.email}
-      />
-      {errors}
+      <div className="row ">
+        <div className="col-sm-4 mb-2"></div>
+        <div className="col-sm-4 mb-2">
+          Time left to pay: {timeLeft} seconds
+          <hr></hr>
+          <CountdownCircleTimer
+            isPlaying
+            duration={msDuration}
+            colors={[
+              ['#004777', 0.33],
+              ['#F7B801', 0.33],
+              ['#A30000', 0.33],
+            ]}
+          >
+            {({ remainingTime }) => remainingTime}
+          </CountdownCircleTimer>
+          {errors}
+          <hr></hr>
+          <StripeCheckout
+            token={({ id }) => doRequest({ token: id })}
+            stripeKey="pk_test_51IXU2YHNY09wOSAB3wElsXLEThEOd5xoCuuiJ0cwPdvwsiOfPKFNMu3h70ByrvNtLZxcKOffYwqQHxl4jm6BO46q00cHYyL7qi"
+            amount={order.ticket.price * 100}
+            email={currentUser.email}
+          >
+            <button className="btn btn-primary">Checkout and Payment</button>
+          </StripeCheckout>
+        </div>
+        <div className="col-sm-4 mb-2"></div>
+      </div>
     </div>
   );
 };

@@ -52,6 +52,8 @@ var buildTicket = function () { return __awaiter(void 0, void 0, void 0, functio
                     id: mongoose_1.default.Types.ObjectId().toHexString(),
                     title: 'concert',
                     price: 20,
+                    imageUrl: 'ablskdjf',
+                    description: 'hghggh',
                 });
                 return [4 /*yield*/, ticket.save()];
             case 1:
