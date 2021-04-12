@@ -18,7 +18,7 @@ const LandingPage = ({ currentUser, tickets }) => {
           <div className="card-body">
             <h5 className="card-title">{ticket.title}</h5>
             <p className="card-text">
-              {ticket.description.length > 34
+              {ticket.description && ticket.description.length > 34
                 ? `${ticket.description.substring(0, 34)} ...`
                 : ticket.description}
             </p>
