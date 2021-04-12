@@ -5,7 +5,7 @@ const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = app.getRequestHandler();
 //const handleNextRequest = app.getRequestHandler();
-const cors = require('cors');
+const Cors = require('cors');
 
 const corsOptions = {
   origin: 'http://www.ticketzone-app-prod.club',
