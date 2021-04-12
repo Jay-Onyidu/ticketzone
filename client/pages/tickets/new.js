@@ -51,7 +51,8 @@ const NewTicket = () => {
     formData.append('image', selectedImage);
     try {
       const { data } = await axios.post(
-        'http://www.ticketzone-app-prod.club/api/image-upload',
+        '/api/image-upload',
+        //'http://www.ticketzone-app-prod.club/api/image-upload',
         //'https://ticketzone.dev/api/image-upload',
         formData
       );
