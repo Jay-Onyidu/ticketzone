@@ -60,7 +60,7 @@ const NewTicket = () => {
     };
     try {
       const { data } = await axios.post(
-        '/api/image-upload',
+        'http://localhost:3000/api/image-upload',
         //'http://www.ticketzone-app-prod.club/api/image-upload',
         //'https://ticketzone.dev/api/image-upload',
         //'http://localhost:3000/api/image-upload',
