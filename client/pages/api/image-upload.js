@@ -35,14 +35,13 @@ const handler = async (req, res) => {
     return res.status(422).send({ message: e.message });
   }
 };
+export default singleUploadCtrl(handler);
 
 export const config = {
   api: {
     bodyParser: false, // Disallow body parsing, consume as stream
   },
 };
-
-export default singleUploadCtrl(handler);
 
 // //Good formidable
 // export default async (req, res) => {
