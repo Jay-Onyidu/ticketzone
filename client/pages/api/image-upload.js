@@ -3,6 +3,7 @@
 // const path = require('path');
 // const DatauriParser = require('datauri/parser');
 // const parser = new DatauriParser();
+const formidable = require('formidable');
 const fs = require('fs');
 
 // const formatBufferTo64 = (file) =>
