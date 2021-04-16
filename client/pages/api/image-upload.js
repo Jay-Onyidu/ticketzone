@@ -3,17 +3,17 @@
 // const path = require('path');
 // const DatauriParser = require('datauri/parser');
 // const parser = new DatauriParser();
-const fs = require('fs')
+const fs = require('fs');
 
 // const formatBufferTo64 = (file) =>
 //   parser.format(path.extname(file.originalname).toString(), file.buffer);
-const removeTmp = (path) =>{
-  fs.unlink(path, err=>{
-      if(err) throw err;
-  })
-}
-
-const cloudinary = require('cloudinary').v2;
+const removeTmp = (path) => {
+  fs.unlink(path, (err) => {
+    if (err) throw err;
+  });
+};
+const cloudinary = require('cloudinary');
+//const cloudinary = require('cloudinary').v2;
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
@@ -21,7 +21,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-const cloudinaryUpload = (path,folder) => cloudinary.uploader.upload(path,folder);
+//const cloudinaryUpload = (path,folder) => cloudinary.uploader.upload(path,folder);
 
 // const handler = async (req, res) => {
 //   try {
@@ -58,24 +58,35 @@ export default async (req, res) => {
   //   res.status(200).json({ fields, files });
   // });
 
-//   cloudinary.v2.uploader.upload(file.tempFilePath, {folder: "test"}, async(err, result)=>{
-//     if(err) throw err;
+  //   cloudinary.v2.uploader.upload(file.tempFilePath, {folder: "test"}, async(err, result)=>{
+  //     if(err) throw err;
 
-//     removeTmp(file.tempFilePath)
+  //     removeTmp(file.tempFilePath)
 
-//     res.json({public_id: result.public_id, url: result.secure_url})
-// })
+  //     res.json({public_id: result.public_id, url: result.secure_url})
+  // })
 
-return promise.then(({ fields, files }) => {
-  const file = files.image;
-  const uploadResult = await cloudinaryUpload(file.tempFilePath ,{folder:'tickets'});
- res.json({
-  cloudinaryId: uploadResult.public_id,
-  url: uploadResult.secure_url,
-});
-});
+  return promise.then(({ fields, files }) => {
+    const file = files.image;
+    cloudinary.v2.uploader.upload(
+      file.tempFilePath,
+      { folder: 'tickets' },
+      async (err, result) => {
+        if (err) throw err;
+
+        //removeTmp(file.tempFilePath)
+
+        res.json({ cloudinaryId: result.public_id, url: result.secure_url });
+      }
+    );
+    // const uploadResult = await cloudinaryUpload(file.tempFilePath ,{folder:'tickets'});
+    //  return res.json({
+    //   cloudinaryId: uploadResult.public_id,
+    //   url: uploadResult.secure_url,
+    // });
+  });
 };
-  //End Good formidable
+//End Good formidable
 export const config = {
   api: {
     bodyParser: false, // Disallow body parsing, consume as stream
