@@ -1,11 +1,17 @@
-import singleUploadCtrl from '../../utils/uploadHelper';
-const dev = process.env.NODE_ENV !== 'production';
-const path = require('path');
-const DatauriParser = require('datauri/parser');
-const parser = new DatauriParser();
+// import singleUploadCtrl from '../../utils/uploadHelper';
+// const dev = process.env.NODE_ENV !== 'production';
+// const path = require('path');
+// const DatauriParser = require('datauri/parser');
+// const parser = new DatauriParser();
+const fs = require('fs')
 
-const formatBufferTo64 = (file) =>
-  parser.format(path.extname(file.originalname).toString(), file.buffer);
+// const formatBufferTo64 = (file) =>
+//   parser.format(path.extname(file.originalname).toString(), file.buffer);
+const removeTmp = (path) =>{
+  fs.unlink(path, err=>{
+      if(err) throw err;
+  })
+}
 
 const cloudinary = require('cloudinary').v2;
 
@@ -15,55 +21,63 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-const cloudinaryUpload = (file) => cloudinary.uploader.upload(file);
+const cloudinaryUpload = (path,folder) => cloudinary.uploader.upload(path,folder);
 
-const handler = async (req, res) => {
-  try {
-    if (!req.file) {
-      throw new Error('Image not present');
-    }
+// const handler = async (req, res) => {
+//   try {
+//     if (!req.file) {
+//       throw new Error('Image not present');
+//     }
 
-    const file64 = formatBufferTo64(req.file);
+//     const file64 = formatBufferTo64(req.file);
 
-    const uploadResult = await cloudinaryUpload(file64.content);
+//     const uploadResult = await cloudinaryUpload(file64.content);
 
-    return res.json({
-      cloudinaryId: uploadResult.public_id,
-      url: uploadResult.secure_url,
+//     return res.json({
+//       cloudinaryId: uploadResult.public_id,
+//       url: uploadResult.secure_url,
+//     });
+//   } catch (e) {
+//     return res.status(422).send({ message: e.message });
+//   }
+// };
+// export default singleUploadCtrl(handler);
+
+//Good formidable
+export default async (req, res) => {
+  const promise = new Promise((resolve, reject) => {
+    const form = new formidable.IncomingForm();
+
+    form.parse(req, (err, fields, files) => {
+      if (err) reject(err);
+      resolve({ fields, files });
     });
-  } catch (e) {
-    return res.status(422).send({ message: e.message });
-  }
-};
-export default singleUploadCtrl(handler);
+  });
 
+  // return promise.then(({ fields, files }) => {
+  //   res.status(200).json({ fields, files });
+  // });
+
+//   cloudinary.v2.uploader.upload(file.tempFilePath, {folder: "test"}, async(err, result)=>{
+//     if(err) throw err;
+
+//     removeTmp(file.tempFilePath)
+
+//     res.json({public_id: result.public_id, url: result.secure_url})
+// })
+
+return promise.then(({ fields, files }) => {
+  const file = files.image;
+  const uploadResult = await cloudinaryUpload(file.tempFilePath ,{folder:'tickets'});
+ res.json({
+  cloudinaryId: uploadResult.public_id,
+  url: uploadResult.secure_url,
+});
+});
+};
+  //End Good formidable
 export const config = {
   api: {
     bodyParser: false, // Disallow body parsing, consume as stream
   },
 };
-
-// //Good formidable
-// export default async (req, res) => {
-//   const promise = new Promise((resolve, reject) => {
-//     const form = new formidable.IncomingForm();
-
-//     form.parse(req, (err, fields, files) => {
-//       if (err) reject(err);
-//       resolve({ fields, files });
-//     });
-//   });
-
-//   return promise.then(({ fields, files }) => {
-//     res.status(200).json({ fields, files });
-//   });
-
-// return promise.then(({ fields, files }) => {
-// const uploadResult = await cloudinaryUpload(files.image.path);
-// return res.json({
-//   cloudinaryId: uploadResult.public_id,
-//   url: uploadResult.secure_url,
-// });
-// });
-// };
-//   //End Good formidable
