@@ -1,43 +1,5 @@
-const next = require('next');
-const multer = require('multer');
-
+import singleUploadCtrl from '../../utils/uploadHelper';
 const dev = process.env.NODE_ENV !== 'production';
-const app = next({ dev });
-const handle = app.getRequestHandler();
-//const handleNextRequest = app.getRequestHandler();
-const Cors = require('cors');
-
-const corsOptions = {
-  origin: 'http://www.ticketzone-app-prod.club',
-  //origin: 'http://localhost:3000',
-  optionsSuccessStatus: 200,
-};
-
-const multerFilter = (req, file, cb) => {
-  if (file.mimetype.startsWith('image')) {
-    cb(null, true);
-  } else {
-    cb(new Error('File type not supported .'), false);
-  }
-};
-
-const multerStorage = multer.memoryStorage();
-const upload = multer({
-  storage: multerStorage,
-  fileFilter: multerFilter,
-});
-
-const singleUpload = upload.single('image');
-
-const singleUploadCtrl = (req, res, next) => {
-  singleUpload(req, res, (error) => {
-    if (error) {
-      return res.status(422).send({ message: 'Image upload failed.' });
-    }
-    next();
-  });
-};
-
 const path = require('path');
 const DatauriParser = require('datauri/parser');
 const parser = new DatauriParser();
@@ -55,27 +17,7 @@ cloudinary.config({
 
 const cloudinaryUpload = (file) => cloudinary.uploader.upload(file);
 
-const cors = Cors({
-  methods: ['GET', 'HEAD'],
-  corsOptions,
-});
-// Helper method to wait for a middleware to execute before continuing
-// And to throw an error when an error happens in a middleware
-function runMiddleware(req, res, fn) {
-  return new Promise((resolve, reject) => {
-    fn(req, res, (result) => {
-      if (result instanceof Error) {
-        return reject(result);
-      }
-
-      return resolve(result);
-    });
-  });
-}
-
-export default async (req, res) => {
-  // Run the middleware
-  await runMiddleware(req, res, cors, singleUploadCtrl);
+const handler = async (req, res) => {
   try {
     if (!req.file) {
       throw new Error('Image not present');
@@ -93,3 +35,36 @@ export default async (req, res) => {
     return res.status(422).send({ message: e.message });
   }
 };
+
+export const config = {
+  api: {
+    bodyParser: false, // Disallow body parsing, consume as stream
+  },
+};
+
+export default singleUploadCtrl(handler);
+
+// //Good formidable
+// export default async (req, res) => {
+//   const promise = new Promise((resolve, reject) => {
+//     const form = new formidable.IncomingForm();
+
+//     form.parse(req, (err, fields, files) => {
+//       if (err) reject(err);
+//       resolve({ fields, files });
+//     });
+//   });
+
+//   return promise.then(({ fields, files }) => {
+//     res.status(200).json({ fields, files });
+//   });
+
+// return promise.then(({ fields, files }) => {
+// const uploadResult = await cloudinaryUpload(files.image.path);
+// return res.json({
+//   cloudinaryId: uploadResult.public_id,
+//   url: uploadResult.secure_url,
+// });
+// });
+// };
+//   //End Good formidable

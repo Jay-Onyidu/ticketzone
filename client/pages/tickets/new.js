@@ -49,18 +49,36 @@ const NewTicket = () => {
 
     const formData = new FormData();
     formData.append('image', selectedImage);
+    const config = {
+      headers: { 'content-type': 'multipart/form-data' },
+      onUploadProgress: (event) => {
+        console.log(
+          `Current progress:`,
+          Math.round((event.loaded * 100) / event.total)
+        );
+      },
+    };
     try {
       const { data } = await axios.post(
         '/api/image-upload',
         //'http://www.ticketzone-app-prod.club/api/image-upload',
         //'https://ticketzone.dev/api/image-upload',
-        formData
+        //'http://localhost:3000/api/image-upload',
+        formData,
+        config
       );
       setImageUrl(data.url);
       setImages([...images, data]);
     } catch (error) {
       console.log('Something went wrong!');
     }
+    // const { data } = await fetch('api/image-upload', {
+    //   method: 'POST',
+    //   headers: {
+    //     'content-type': 'multipart/form-data',
+    //   },
+    //   body: JSON.stringify(formData),
+    // }).then((res) => res.json());
   };
 
   const handleChange = (event) => {
