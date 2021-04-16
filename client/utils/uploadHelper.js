@@ -17,7 +17,7 @@ const upload = multer({
 const singleUpload = upload.single('image');
 
 const singleUploadCtrl = (handler) => async (req, res) => {
-  singleUpload(req, res, (error) => {
+  await singleUpload(req, res, (error) => {
     if (error) {
       return res.status(422).send({ message: 'Image upload failed.' });
     }
