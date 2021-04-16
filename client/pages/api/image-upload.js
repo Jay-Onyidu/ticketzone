@@ -5,6 +5,12 @@
 // const parser = new DatauriParser();
 const formidable = require('formidable');
 const fs = require('fs');
+import Cors from 'cors';
+
+// Initializing the cors middleware
+const cors = Cors({
+  methods: ['GET', 'POST'],
+});
 
 // const formatBufferTo64 = (file) =>
 //   parser.format(path.extname(file.originalname).toString(), file.buffer);
@@ -45,7 +51,20 @@ cloudinary.config({
 // export default singleUploadCtrl(handler);
 
 //Good formidable
+
+function runMiddleware(req, res, fn) {
+  return new Promise((resolve, reject) => {
+    fn(req, res, (result) => {
+      if (result instanceof Error) {
+        return reject(result);
+      }
+
+      return resolve(result);
+    });
+  });
+}
 export default async (req, res) => {
+  await runMiddleware(req, res, cors);
   const promise = new Promise((resolve, reject) => {
     const form = new formidable.IncomingForm();
 
