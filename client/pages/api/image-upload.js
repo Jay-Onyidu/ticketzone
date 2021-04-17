@@ -1,26 +1,18 @@
-// import singleUploadCtrl from '../../utils/uploadHelper';
-// const dev = process.env.NODE_ENV !== 'production';
-// const path = require('path');
-// const DatauriParser = require('datauri/parser');
-// const parser = new DatauriParser();
 const formidable = require('formidable');
 const fs = require('fs');
-import Cors from 'cors';
+//import Cors from 'cors';
 
 // Initializing the cors middleware
-const cors = Cors({
-  methods: ['GET', 'POST'],
-});
+// const cors = Cors({
+//   methods: ['GET', 'POST'],
+// });
 
-// const formatBufferTo64 = (file) =>
-//   parser.format(path.extname(file.originalname).toString(), file.buffer);
 const removeTmp = (path) => {
   fs.unlink(path, (err) => {
     if (err) throw err;
   });
 };
 const cloudinary = require('cloudinary');
-//const cloudinary = require('cloudinary').v2;
 
 cloudinary.config({
   cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_NAME,
@@ -28,43 +20,21 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-//const cloudinaryUpload = (path,folder) => cloudinary.uploader.upload(path,folder);
-
-// const handler = async (req, res) => {
-//   try {
-//     if (!req.file) {
-//       throw new Error('Image not present');
-//     }
-
-//     const file64 = formatBufferTo64(req.file);
-
-//     const uploadResult = await cloudinaryUpload(file64.content);
-
-//     return res.json({
-//       cloudinaryId: uploadResult.public_id,
-//       url: uploadResult.secure_url,
-//     });
-//   } catch (e) {
-//     return res.status(422).send({ message: e.message });
-//   }
-// };
-// export default singleUploadCtrl(handler);
-
 //Good formidable
 
-function runMiddleware(req, res, fn) {
-  return new Promise((resolve, reject) => {
-    fn(req, res, (result) => {
-      if (result instanceof Error) {
-        return reject(result);
-      }
+// function runMiddleware(req, res, fn) {
+//   return new Promise((resolve, reject) => {
+//     fn(req, res, (result) => {
+//       if (result instanceof Error) {
+//         return reject(result);
+//       }
 
-      return resolve(result);
-    });
-  });
-}
+//       return resolve(result);
+//     });
+//   });
+// }
 export default async (req, res) => {
-  await runMiddleware(req, res, cors);
+  //await runMiddleware(req, res, cors);
   const promise = new Promise((resolve, reject) => {
     const form = new formidable.IncomingForm();
 
@@ -73,18 +43,6 @@ export default async (req, res) => {
       resolve({ fields, files });
     });
   });
-
-  // return promise.then(({ fields, files }) => {
-  //   res.status(200).json({ fields, files });
-  // });
-
-  //   cloudinary.v2.uploader.upload(file.tempFilePath, {folder: "test"}, async(err, result)=>{
-  //     if(err) throw err;
-
-  //     removeTmp(file.tempFilePath)
-
-  //     res.json({public_id: result.public_id, url: result.secure_url})
-  // })
 
   return promise.then(({ fields, files }) => {
     const file = files.image;
@@ -96,14 +54,12 @@ export default async (req, res) => {
 
         //removeTmp(file.tempFilePath)
 
-        res.json({ cloudinaryId: result.public_id, url: result.secure_url });
+        return res.json({
+          cloudinaryId: result.public_id,
+          url: result.secure_url,
+        });
       }
     );
-    // const uploadResult = await cloudinaryUpload(file.tempFilePath ,{folder:'tickets'});
-    //  return res.json({
-    //   cloudinaryId: uploadResult.public_id,
-    //   url: uploadResult.secure_url,
-    // });
   });
 };
 //End Good formidable
