@@ -6,7 +6,7 @@ const buildClient = ({ req }) => {
 
     return axios.create({
       baseURL: 'http://www.ticketzone-app-prod.club/',
-      //baseURL: 'http://ingress-nginx-controller.kube-system.svc.cluster.local',
+      // baseURL: 'http://ingress-nginx-controller.kube-system.svc.cluster.local',
 
       headers: req.headers,
     });

@@ -46,39 +46,41 @@ const NewTicket = () => {
     if (!selectedImage) {
       return;
     }
-
+    const url = `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_NAME}/image/upload`;
     const formData = new FormData();
-    formData.append('image', selectedImage);
-    const config = {
-      headers: { 'content-type': 'multipart/form-data' },
-      onUploadProgress: (event) => {
-        console.log(
-          `Current progress:`,
-          Math.round((event.loaded * 100) / event.total)
-        );
-      },
-    };
+    formData.append('file', selectedImage);
+    formData.append(
+      'upload_preset',
+      process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET
+    );
+    // const config = {
+    //   headers: { 'content-type': 'multipart/form-data' },
+    //   onUploadProgress: (event) => {
+    //     console.log(
+    //       `Current progress:`,
+    //       Math.round((event.loaded * 100) / event.total)
+    //     );
+    //   },
+    // };
     try {
-      const { data } = await axios.post(
-        'http://localhost:3000/api/image-upload',
-        //'http://www.ticketzone-app-prod.club/api/image-upload',
-        //'https://ticketzone.dev/api/image-upload',
-        //'http://localhost:3000/api/image-upload',
-        formData,
-        config
-      );
-      setImageUrl(data.url);
+      // const { data } = await axios.post(
+      //   '/api/image-upload',
+      //   //'http://www.ticketzone-app-prod.club/api/image-upload',
+      //   //'https://ticketzone.dev/api/image-upload',
+      //   //'http://localhost:3000/api/image-upload',
+      //   formData,
+      //   config
+      // );
+      const response = await fetch(url, {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await response.json();
+      setImageUrl(data.secure_url);
       setImages([...images, data]);
     } catch (error) {
       console.log('Something went wrong!');
     }
-    // const { data } = await fetch('api/image-upload', {
-    //   method: 'POST',
-    //   headers: {
-    //     'content-type': 'multipart/form-data',
-    //   },
-    //   body: JSON.stringify(formData),
-    // }).then((res) => res.json());
   };
 
   const handleChange = (event) => {
@@ -132,21 +134,14 @@ const NewTicket = () => {
               >
                 {images.map((image) => (
                   <div
-                    key={image.cloudinaryId}
+                    key={image.public_id}
                     style={{
                       position: 'absolute',
                       top: 0,
                       left: 0,
                     }}
                   >
-                    <img src={image.url} width="100%" height="350" />
-                    {/* <a
-                    className="d-block mb-4 h-100"
-                    target="_blank"
-                    href={image.url}
-                  >
-                    <img src={image.url} width="350" height="225" />
-                  </a> */}
+                    <img src={image.secure_url} width="100%" height="350" />
                   </div>
                 ))}
               </div>
